@@ -5,7 +5,7 @@
 
 if [ $# -ne 6 ]
   then
-    echo "Error: wrong number of arguments supplied. Usage: sh run_pipeline.sh --vcf input.vcf --genelist genelist.txt --outdir outdir"
+    echo "Error: wrong number of arguments supplied. Usage: sh run_pipeline.sh --vcf input.vcf --genelist FHDO3_genelist.txt --outdir outdir"
     exit 1
 fi
 
@@ -67,14 +67,6 @@ sh $DIR/variants_to_table.sh ${out_prefix}.split.hmtnote.pickgene-gencode.vcf $r
 echo "---- Starting parsing and filtering with Python  -----"
 
 python $DIR/formatcsq.py -tsv ${out_prefix}.split.hmtnote.pickgene-gencode.tsv -vcf ${out_prefix}.split.hmtnote.pickgene-gencode.vcf
-python $DIR/filter.py -tsv ${out_prefix}.split.hmtnote.pickgene-gencode.formatcsq.tsv -genelist $genelist
+python $DIR/new_filter.py -tsv ${out_prefix}.split.hmtnote.pickgene-gencode.formatcsq.tsv -genelist $genelist
 
-# move intermediate files to tmp location
-mkdir -p ${outdir}/tmp
-mv ${out_prefix}.split.hmtnote.pickgene-gencode.tsv ${outdir}/tmp
-mv ${out_prefix}.split.hmtnote.pickgene-gencode.vcf ${outdir}/tmp 
-mv ${out_prefix}.split.hmtnote.pickgene-gencode.vcf_summary.html ${outdir}/tmp
-mv ${out_prefix}.split.hmtnote.pickgene-gencode.formatcsq.tsv ${outdir}/tmp
-mv ${out_prefix}.split.vcf ${outdir}/tmp
-mv ${out_prefix}.split.vcf.idx ${outdir}/tmp
-mv ${out_prefix}.split.hmtnote.vcf ${outdir}/tmp
+
